@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AlmacenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="categoria">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="marca">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="producto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="modelo" Type="varchar" MaxLength="50" />
+          <Property Name="precio" Type="varchar" MaxLength="50" />
+          <Property Name="foto" Type="image" />
+          <Property Name="categoria_id" Type="int" />
+          <Property Name="marca_id" Type="int" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Almacen.dbo.usuario' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="username" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_categoria_producto">
+          <End Role="categoria" Type="Self.categoria" Multiplicity="0..1" />
+          <End Role="producto" Type="Self.producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoria">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="producto">
+              <PropertyRef Name="categoria_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_marca_producto">
+          <End Role="marca" Type="Self.marca" Multiplicity="0..1" />
+          <End Role="producto" Type="Self.producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marca">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="producto">
+              <PropertyRef Name="marca_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_delete_categoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_delete_marcas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_delete_productos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_delete_usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_get_categoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_get_marcas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_get_productos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_get_usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_insert_categoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_marcas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_productos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="modelo" Type="varchar" Mode="In" />
+          <Parameter Name="precio" Type="varchar" Mode="In" />
+          <Parameter Name="categoria" Type="int" Mode="In" />
+          <Parameter Name="marca" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_update_categoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_update_marcas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_update_productos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="modelo" Type="varchar" Mode="In" />
+          <Parameter Name="precio" Type="varchar" Mode="In" />
+          <Parameter Name="categoria" Type="int" Mode="In" />
+          <Parameter Name="marca" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_update_usuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="AlmacenModelStoreContainer">
+          <EntitySet Name="categoria" EntityType="Self.categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="marca" EntityType="Self.marca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="producto" EntityType="Self.producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [usuario].[id] AS [id], 
+    [usuario].[nombre] AS [nombre], 
+    [usuario].[username] AS [username], 
+    [usuario].[password] AS [password], 
+    [usuario].[email] AS [email]
+    FROM [dbo].[usuario] AS [usuario]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_categoria_producto" Association="Self.FK_categoria_producto">
+            <End Role="categoria" EntitySet="categoria" />
+            <End Role="producto" EntitySet="producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_marca_producto" Association="Self.FK_marca_producto">
+            <End Role="marca" EntitySet="marca" />
+            <End Role="producto" EntitySet="producto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AlmacenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="categoria">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="producto" Relationship="Self.FK_categoria_producto" FromRole="categoria" ToRole="producto" />
+        </EntityType>
+        <EntityType Name="marca">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="producto" Relationship="Self.FK_marca_producto" FromRole="marca" ToRole="producto" />
+        </EntityType>
+        <EntityType Name="producto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="precio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="foto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="categoria_id" Type="Int32" />
+          <Property Name="marca_id" Type="Int32" />
+          <NavigationProperty Name="categoria" Relationship="Self.FK_categoria_producto" FromRole="producto" ToRole="categoria" />
+          <NavigationProperty Name="marca" Relationship="Self.FK_marca_producto" FromRole="producto" ToRole="marca" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_categoria_producto">
+          <End Role="categoria" Type="Self.categoria" Multiplicity="0..1" />
+          <End Role="producto" Type="Self.producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoria">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="producto">
+              <PropertyRef Name="categoria_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_marca_producto">
+          <End Role="marca" Type="Self.marca" Multiplicity="0..1" />
+          <End Role="producto" Type="Self.producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marca">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="producto">
+              <PropertyRef Name="marca_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AlmacenEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categoria" EntityType="Self.categoria" />
+          <EntitySet Name="marca" EntityType="Self.marca" />
+          <EntitySet Name="producto" EntityType="Self.producto" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <AssociationSet Name="FK_categoria_producto" Association="Self.FK_categoria_producto">
+            <End Role="categoria" EntitySet="categoria" />
+            <End Role="producto" EntitySet="producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_marca_producto" Association="Self.FK_marca_producto">
+            <End Role="marca" EntitySet="marca" />
+            <End Role="producto" EntitySet="producto" />
+          </AssociationSet>
+          <FunctionImport Name="sp_get_productos" ReturnType="Collection(AlmacenModel.sp_get_productos_Result)" />
+          <FunctionImport Name="sp_insert_productos">
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="modelo" Mode="In" Type="String" />
+            <Parameter Name="precio" Mode="In" Type="String" />
+            <Parameter Name="categoria" Mode="In" Type="Int32" />
+            <Parameter Name="marca" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_update_productos">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="modelo" Mode="In" Type="String" />
+            <Parameter Name="precio" Mode="In" Type="String" />
+            <Parameter Name="categoria" Mode="In" Type="Int32" />
+            <Parameter Name="marca" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_delete_productos">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_delete_categoria">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_delete_marcas">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_delete_usuarios">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_get_categoria" ReturnType="Collection(AlmacenModel.sp_get_categoria_Result)" />
+          <FunctionImport Name="sp_get_marcas" ReturnType="Collection(AlmacenModel.sp_get_marcas_Result)" />
+          <FunctionImport Name="sp_get_usuario" ReturnType="Collection(AlmacenModel.sp_get_usuario_Result)" />
+          <FunctionImport Name="sp_insert_categoria">
+            <Parameter Name="nombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insert_marcas">
+            <Parameter Name="nombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insert_usuarios">
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_update_categoria">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_update_marcas">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_update_usuarios">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_get_productos_Result">
+          <Property Type="String" Name="Producto" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Modelo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Precio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Marca" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Categoria" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_get_categoria_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_get_marcas_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_get_usuario_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre_de_usuario" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="contraseña" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Correo_Electronico" Nullable="true" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AlmacenModelStoreContainer" CdmEntityContainer="AlmacenEntities">
+          <EntitySetMapping Name="categoria">
+            <EntityTypeMapping TypeName="AlmacenModel.categoria">
+              <MappingFragment StoreEntitySet="categoria">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="marca">
+            <EntityTypeMapping TypeName="AlmacenModel.marca">
+              <MappingFragment StoreEntitySet="marca">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="producto">
+            <EntityTypeMapping TypeName="AlmacenModel.producto">
+              <MappingFragment StoreEntitySet="producto">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="categoria_id" ColumnName="categoria_id" />
+                <ScalarProperty Name="marca_id" ColumnName="marca_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="AlmacenModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_productos" FunctionName="AlmacenModel.Store.sp_get_productos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AlmacenModel.sp_get_productos_Result">
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_insert_productos" FunctionName="AlmacenModel.Store.sp_insert_productos" />
+          <FunctionImportMapping FunctionImportName="sp_update_productos" FunctionName="AlmacenModel.Store.sp_update_productos" />
+          <FunctionImportMapping FunctionImportName="sp_delete_productos" FunctionName="AlmacenModel.Store.sp_delete_productos" />
+          <FunctionImportMapping FunctionImportName="sp_delete_categoria" FunctionName="AlmacenModel.Store.sp_delete_categoria" />
+          <FunctionImportMapping FunctionImportName="sp_delete_marcas" FunctionName="AlmacenModel.Store.sp_delete_marcas" />
+          <FunctionImportMapping FunctionImportName="sp_delete_usuarios" FunctionName="AlmacenModel.Store.sp_delete_usuarios" />
+          <FunctionImportMapping FunctionImportName="sp_get_categoria" FunctionName="AlmacenModel.Store.sp_get_categoria">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AlmacenModel.sp_get_categoria_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_marcas" FunctionName="AlmacenModel.Store.sp_get_marcas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AlmacenModel.sp_get_marcas_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_usuario" FunctionName="AlmacenModel.Store.sp_get_usuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AlmacenModel.sp_get_usuario_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Nombre_de_usuario" ColumnName="Nombre de usuario" />
+                <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+                <ScalarProperty Name="Correo_Electronico" ColumnName="Correo Electronico" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_insert_categoria" FunctionName="AlmacenModel.Store.sp_insert_categoria" />
+          <FunctionImportMapping FunctionImportName="sp_insert_marcas" FunctionName="AlmacenModel.Store.sp_insert_marcas" />
+          <FunctionImportMapping FunctionImportName="sp_insert_usuarios" FunctionName="AlmacenModel.Store.sp_insert_usuarios" />
+          <FunctionImportMapping FunctionImportName="sp_update_categoria" FunctionName="AlmacenModel.Store.sp_update_categoria" />
+          <FunctionImportMapping FunctionImportName="sp_update_marcas" FunctionName="AlmacenModel.Store.sp_update_marcas" />
+          <FunctionImportMapping FunctionImportName="sp_update_usuarios" FunctionName="AlmacenModel.Store.sp_update_usuarios" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
