@@ -10,19 +10,13 @@
 namespace InventarioAlmacen
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class producto
+    public partial class sp_get_productos_Result
     {
-        public int id { get; set; }
-        public string nombre { get; set; }
-        public string modelo { get; set; }
-        public string precio { get; set; }
-        public byte[] foto { get; set; }
-        public Nullable<int> categoria_id { get; set; }
-        public Nullable<int> marca_id { get; set; }
-    
-        public virtual categoria categoria { get; set; }
-        public virtual marca marca { get; set; }
+        public string Producto { get; set; }
+        public string Modelo { get; set; }
+        public string Precio { get; set; }
+        public string Marca { get; set; }
+        public string Categoria { get; set; }
     }
 }

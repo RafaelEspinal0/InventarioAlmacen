@@ -12,6 +12,8 @@ namespace InventarioAlmacen
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class AlmacenEntities : DbContext
     {
@@ -29,5 +31,64 @@ namespace InventarioAlmacen
         public virtual DbSet<marca> marca { get; set; }
         public virtual DbSet<producto> producto { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
+    
+        public virtual ObjectResult<sp_get_productos_Result> sp_get_productos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_productos_Result>("sp_get_productos");
+        }
+    
+        public virtual int sp_insert_productos(string nombre, string modelo, string precio, Nullable<int> categoria, Nullable<int> marca)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("nombre", nombre) :
+                new ObjectParameter("nombre", typeof(string));
+    
+            var modeloParameter = modelo != null ?
+                new ObjectParameter("modelo", modelo) :
+                new ObjectParameter("modelo", typeof(string));
+    
+            var precioParameter = precio != null ?
+                new ObjectParameter("precio", precio) :
+                new ObjectParameter("precio", typeof(string));
+    
+            var categoriaParameter = categoria.HasValue ?
+                new ObjectParameter("categoria", categoria) :
+                new ObjectParameter("categoria", typeof(int));
+    
+            var marcaParameter = marca.HasValue ?
+                new ObjectParameter("marca", marca) :
+                new ObjectParameter("marca", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_insert_productos", nombreParameter, modeloParameter, precioParameter, categoriaParameter, marcaParameter);
+        }
+    
+        public virtual int sp_update_productos(Nullable<int> id, string nombre, string modelo, string precio, Nullable<int> categoria, Nullable<int> marca)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("nombre", nombre) :
+                new ObjectParameter("nombre", typeof(string));
+    
+            var modeloParameter = modelo != null ?
+                new ObjectParameter("modelo", modelo) :
+                new ObjectParameter("modelo", typeof(string));
+    
+            var precioParameter = precio != null ?
+                new ObjectParameter("precio", precio) :
+                new ObjectParameter("precio", typeof(string));
+    
+            var categoriaParameter = categoria.HasValue ?
+                new ObjectParameter("categoria", categoria) :
+                new ObjectParameter("categoria", typeof(int));
+    
+            var marcaParameter = marca.HasValue ?
+                new ObjectParameter("marca", marca) :
+                new ObjectParameter("marca", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_update_productos", idParameter, nombreParameter, modeloParameter, precioParameter, categoriaParameter, marcaParameter);
+        }
     }
 }
